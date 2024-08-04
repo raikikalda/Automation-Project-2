@@ -158,7 +158,7 @@ describe("Issue create", () => {
   //Test Case 2: Random Data Plugin Issue Creation
   const randomWord = faker.word.noun();
   const randomWords = faker.word.words(5, { separator: " " });
-  it.only("Should create another issue using the random data plugin and validate it successfully", () => {
+  it("Should create another issue using the random data plugin and validate it successfully", () => {
     // System finds modal for creating issue and does next steps inside of it
     cy.get('[data-testid="modal:issue-create"]').within(() => {
       // Type value to description input field
