@@ -4,8 +4,6 @@ import { faker } from '@faker-js/faker';
 const randomWord = faker.word.noun();
 const randomWords = faker.word.words(5, { separator: ' ' });
 const issueModal = '[data-testid="modal:issue-create"]';
-const successMessage = 'Issue has been successfully created.';
-const backlogList = '[data-testid="board-list:backlog"]';
 const getIssueDetailsModal = () =>
   cy.get('[data-testid="modal:issue-details"]');
 const inputNumber = 'input[placeholder="Number"]';
