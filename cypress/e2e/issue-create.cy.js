@@ -244,4 +244,25 @@ describe('Issue create', () => {
       );
     });
   });
+  it('Should validate that the issue title on the board does not have leading and trailing spaces in it', () => {
+    const title = ' Tere maailm! ';
+    cy.get('[data-testid="modal:issue-create"]').within(() => {
+      cy.get('.ql-editor').type('test');
+      cy.get('input[name="title"]').type(title);
+      cy.get('input[name="title"]').should('have.value', title);
+      cy.get('button[type="submit"]').click().wait(35000);
+    });
+
+    cy.get('[data-testid="board-list:backlog"]')
+      .should('be.visible')
+      .children()
+      .eq(0)
+      .invoke('text')
+      .then((boardTitle) => {
+        const trimmedTitle = title.trim();
+        expect(boardTitle.replace(/\u00A0/g, ' ').trim()).to.equal(
+          trimmedTitle
+        );
+      });
+  });
 });

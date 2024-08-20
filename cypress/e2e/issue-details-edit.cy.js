@@ -68,6 +68,52 @@ describe('Issue details editing', () => {
     });
   });
 
-  const getIssueDetailsModal = () =>
-    cy.get('[data-testid="modal:issue-details"]');
+  it.only('Should validate issue priorities', () => {
+    const expectedLength = 5;
+    const priorityOptions = [];
+    const getIssueDetailsModal = () =>
+      cy.get('[data-testid="modal:issue-details"]');
+
+    getIssueDetailsModal()
+      .within(() => {
+        cy.get('[data-testid="select:priority"]')
+          .invoke('text')
+          .then((text) => {
+            priorityOptions.push(text);
+            cy.log(priorityOptions);
+          });
+        cy.get('[data-testid="select:priority"]').click('bottomRight');
+        cy.get('[placeholder="Search"]')
+          .parent()
+          .children()
+          .eq(1)
+          .children()
+          .each(($el, index) => {
+            cy.wrap($el)
+              .invoke('text')
+              .then((text) => {
+                priorityOptions.push(text);
+                cy.log(priorityOptions);
+              });
+          });
+      })
+      .then(() => {
+        expect(priorityOptions.length).to.equal(expectedLength);
+        cy.log(priorityOptions);
+      });
+  });
+
+  it('Should check that reporters name has only characters in it', () => {
+    const reporterNameRegex = /^[A-Za-z\s]+$/;
+    const getIssueDetailsModal = () =>
+      cy.get('[data-testid="modal:issue-details"]');
+
+    getIssueDetailsModal().within(() => {
+      cy.get('[data-testid="select:reporter"]')
+        .invoke('text')
+        .then((reporterName) => {
+          expect(reporterName).to.match(reporterNameRegex);
+        });
+    });
+  });
 });
